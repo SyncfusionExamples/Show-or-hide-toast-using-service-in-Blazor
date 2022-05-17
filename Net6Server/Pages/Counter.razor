@@ -1,0 +1,86 @@
+﻿@page "/counter"
+@using Syncfusion.Blazor.Popups
+<PageTitle>Index</PageTitle>
+
+@if (!_dialogVisible)
+{
+    <button
+        @onclick="@DialogOpen"
+        style="float:right"
+        >
+        Open dialog
+    </button>
+}
+
+<div>
+    @(Debug)
+</div>
+
+<SfDialog @ref="_dialog"
+          Width="@Width"
+          Height="@Height"
+          AllowDragging="true"
+          IsModal="false"
+          ShowCloseIcon="true"
+          EnableResize="true"
+          Visible="_dialogVisible"
+          CssClass="notes-dialog"
+AllowPrerender="true">
+    <DialogTemplates>
+        <Header>Notes</Header>
+        <Content>
+            Content goes here&hellip;
+        </Content>
+    </DialogTemplates>
+    <DialogAnimationSettings Effect="DialogEffect.None" Duration="0" Delay="0" />
+    <DialogEvents Closed="DialogClosed" OnDragStop="DialogDragStop" OnResizeStop="DialogResizeStop" />
+    <DialogPositionData X="@X" Y="@Y"></DialogPositionData>
+</SfDialog>
+
+@code {
+    private SfDialog? _dialog;
+    public string X { get; set; } = "center";
+    public string Y { get; set; } = "right";
+    public string Width { get; set; } = "300px";
+    public string Height { get; set; } = "400px";
+    public string Position => $"({X}, {Y}) sizing {Width} by {Height}";
+    private bool _dialogVisible { get; set; } = false;
+
+    private List<string> _debug = new List<string>();
+    public MarkupString Debug {
+        get
+        {
+            return (MarkupString)string.Join("<br/>", _debug);
+        }
+    }
+
+    private string _notes { get; set; } = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
+    private void DialogOpen()
+    {
+        _dialogVisible = true;
+        _debug.Add("Open: " + this.Position);
+        StateHasChanged();
+    }
+
+    private void DialogClosed(CloseEventArgs args)
+    {
+        _dialogVisible = false;
+        _debug.Add("Close: " + this.Position);
+        StateHasChanged();
+    }
+
+    private async Task DialogDragStop(DragStopEventArgs args)
+    {
+        _debug.Add("Drag Stop: " + this.Position);
+        _debug.Add("X: " + args.Event.ClientX.ToString() + ", Y: " + args.Event.ClientY.ToString());
+        StateHasChanged();
+    }
+
+    private void DialogResizeStop(MouseEventArgs args)
+    {
+        _debug.Add("Resize Stop: " + this.Position);
+        _debug.Add("X: " + args.ClientX.ToString() + ", Y: " + args.ClientY.ToString());
+        StateHasChanged();
+    }
+}

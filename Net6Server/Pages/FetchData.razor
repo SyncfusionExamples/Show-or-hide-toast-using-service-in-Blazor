@@ -1,0 +1,34 @@
+﻿@page "/fetchdata"
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+
+<SfButton @onclick="@OpenDialogAsync">Open Dialog</SfButton>
+
+<SfDialog @ref="@RefDialog" Width="250px" Height="auto" ShowCloseIcon="true" IsModal="true" @bind-Visible="@IsVisible">
+    <DialogTemplates>
+        <Header> Dialog </Header>
+        <Content> This is a Dialog with button and primary button </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton Content="OK" IsPrimary="true" OnClick="@CloseDialog" />
+        <DialogButton Content="Cancel" OnClick="@CloseDialog" />
+    </DialogButtons>
+    <DialogPositionData X="@Xvalue" Y="@Yvalue"></DialogPositionData>
+</SfDialog>
+
+@code {
+    private SfDialog RefDialog;
+      private string Xvalue = "center";
+    private string Yvalue = "center";
+    private bool IsVisible { get; set; }
+
+    private async Task OpenDialogAsync()
+    {
+        await RefDialog.ShowAsync().ConfigureAwait(false);
+    }
+
+    private void CloseDialog()
+    {
+        this.IsVisible = false;
+    }
+}
