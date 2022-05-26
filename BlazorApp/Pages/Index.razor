@@ -1,0 +1,15 @@
+﻿@page "/"
+@using BlazorApp.Components  
+@inject ToastService ToastServices  
+<button class="e-btn" @onclick="@ShowToast"> Show Toast</button>  
+  
+@code {  
+    private void ShowToast()  
+    {  
+        this.ToastServices.Open(new ToastOption()  
+        {  
+            Title = "Toast Title",  
+            Content = "Toast content", // Dynamic Content  
+        });  
+    }  
+}  
