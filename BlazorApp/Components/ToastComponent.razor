@@ -1,6 +1,7 @@
 ﻿@using Syncfusion.Blazor.Notifications;  
-  
-<SfToast @ref="ToastObj" Timeout=2000>  
+@inject ToastService ToastService
+
+<SfToast @ref="Toast" Timeout=2000>  
     <ToastTemplates>  
         <Title>  
             @Options.Title  
@@ -12,26 +13,27 @@
     <ToastPosition X="Right"></ToastPosition>  
 </SfToast>  
   
-@code {  
-    [Inject]  
-    public ToastService ToastService { get; set; }  
-    SfToast ToastObj;  
-  
-    private bool RenderToast { get; set; } = false;  
-    private ToastOption Options = new ToastOption();  
-    protected override async Task OnInitializedAsync()  
-    {  
-       // Update the parameter in local variable and render the toast  
-      ToastService.ToastInstance += (ToastOption options) =>  
-       {  
-         InvokeAsync(() =>  
-          {  
-            this.Options.Title = options.Title;  
-            this.Options.Content = options.Content;  
-            this.RenderToast = true;                  
-            this.StateHasChanged();  
-            this.ToastObj.ShowAsync(); 
-          });  
-       };  
-    }  
+@code{
+
+    SfToast Toast;  
+
+    private bool IsToastVisible { get; set; } = false;  
+
+    private ToastOption Options = new ToastOption();
+
+    protected override void OnInitialized()
+    {
+        ToastService.ShowToastTrigger += (ToastOption options) =>
+        {
+            InvokeAsync(() =>
+            {
+                this.Options.Title = options.Title;
+                this.Options.Content = options.Content;
+                this.IsToastVisible = true;
+                this.StateHasChanged();
+                this.Toast.ShowAsync();
+            });
+        };
+        base.OnInitialized();
+    }
 }  

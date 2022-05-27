@@ -2,11 +2,11 @@
 {
     public class ToastService
     {
-        public event Action<ToastOption> ToastInstance;
-        public void Open(ToastOption options)
+        public event Action<ToastOption> ShowToastTrigger;
+        public void ShowToast(ToastOption options)
         {
-            // Invoke ToastComponent to update and show the toast with messages  
-            this.ToastInstance.Invoke(options);
+            //Invoke ToastComponent to update and show the toast with messages  
+            this.ShowToastTrigger.Invoke(options);
         }
     }
 }
