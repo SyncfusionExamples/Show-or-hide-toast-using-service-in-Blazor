@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-@using ShowOrHideToast.Components;
+@using ShowOrHideToast.Components.Pages;
 
 <div class="page">
     <div class="sidebar">
@@ -16,7 +16,7 @@
         </article>
     </main>
 </div>
-<ToastComponent />
+<ToastComponent @rendermode="InteractiveServer"/>
 
 <div id="blazor-error-ui" data-nosnippet>
     An unhandled error has occurred.

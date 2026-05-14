@@ -1,4 +1,5 @@
 using ShowOrHideToast.Components;
+using ShowOrHideToast.Controller;
 using Syncfusion.Blazor;
 
 var builder = WebApplication.CreateBuilder(args);
